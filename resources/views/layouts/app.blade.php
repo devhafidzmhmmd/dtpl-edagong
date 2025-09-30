@@ -31,21 +31,21 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('product.index') }}">Shop</a>
                         </li>
-                        <li class="nav-item">
+                        <!-- comment out for next iteration-->
+                        <!-- <li class="nav-item">
                             <a class="nav-link" href="{{ route('cart.show') }}">Cart
                                 @if (Cart::isNotEmpty())
                                     <span class="badge badge-pill badge-secondary">{{ Cart::itemCount() }}</span>
                                 @endif
                             </a>
-                        </li>
+                        </li> -->
+                    </ul>
+
+                    <!-- Right Side Of Navbar -->
+                    <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @guest
                             <li class="nav-item">
@@ -86,17 +86,6 @@
         </nav>
 
         <main class="py-4">
-
-            <div class="container">
-                @yield('categories-menu')
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb bg-transparent">
-                        @yield('breadcrumbs')
-                    </ol>
-                </nav>
-                @include('flash::message')
-            </div>
-
             @yield('content')
         </main>
     </div>

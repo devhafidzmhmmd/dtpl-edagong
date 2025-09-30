@@ -22,6 +22,11 @@ class ProductIndexRequest extends FormRequest
         return $filters;
     }
 
+    public function findByName(string $name)
+    {
+        return $this->query($name);
+    }
+
     public function authorize()
     {
         return true;

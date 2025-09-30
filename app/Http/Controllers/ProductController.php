@@ -30,6 +30,11 @@ class ProductController extends Controller
             $this->productFinder->havingPropertyValuesByName($property, $values);
         }
 
+        ## find by product name if parameter exists
+        if ($name = $request->findByName('name')) {
+            $this->productFinder->nameContains($name);
+        }
+
         return view('product.index', [
             'products'   => $this->productFinder->getResults(),
             'taxonomies' => $taxonomies,

@@ -81,7 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Vanilo Demo
+                    E-Dagon
                 </div>
 
                 <div class="links">

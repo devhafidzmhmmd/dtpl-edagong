@@ -4,7 +4,7 @@ return [
     'modules' => [
         Konekt\AppShell\Providers\ModuleServiceProvider::class => [
             'ui' => [
-                'name' => 'Vanilo',
+                'name' => 'E-Dagon',
                 'url' => '/admin/product'
             ]
         ],
@@ -42,6 +42,17 @@ return [
                     ]
                 ]
             ],
+            'currency'    => [
+                'code'   => 'Rupiah',
+                'sign'   => 'Rp',
+                // For the format_price() template helper method:
+                'format' => '%2$s%1$g' // see sprintf. Amount is the first argument, currency is the second
+                /* EURO example:
+                'code'   => 'EUR',
+                'sign'   => '€',
+                'format' => '%1$g%2$s'
+                */
+            ]
         ],
         Vanilo\Admin\Providers\ModuleServiceProvider::class,
         Vanilo\Adyen\Providers\ModuleServiceProvider::class,
