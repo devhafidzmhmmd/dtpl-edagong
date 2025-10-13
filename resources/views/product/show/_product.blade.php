@@ -17,13 +17,14 @@
     </div>
 
     <div class="col-md-6">
-        <form action="{{ route('cart.add', $product) }}" method="post" class="mb-4">
-            {{ csrf_field() }}
-
-            <span class="mr-2 font-weight-bold text-primary btn-lg">{{ format_price($product->price) }}</span>
-            <button type="submit" class="btn btn-success btn-lg" @if(!$product->price) disabled @endif>Add to cart</button>
-        </form>
-
+        <div class="row pb-3">
+            <div class="col">
+                <h2>{{ $product->name }}</h2>
+            </div>
+            <div class="col text-end">
+                <h4 class="text-primary">{{ format_price($product->price) }}</h4>
+            </div>
+        </div>
         @unless(empty($product->propertyValues))
             <table class="table table-sm">
                 <tbody>
@@ -44,5 +45,15 @@
             <p class="text-secondary">{!!  nl2br($product->description) !!}</p>
             <hr>
         @endunless
+
+        @if (Auth::user() != null &&Auth::user()->type == 'client')
+        <div class="row">
+            <form action="{{ route('cart.add', $product) }}" method="post" class="mb-4">
+                {{ csrf_field() }}
+                <button type="submit" class="btn btn-success btn-lg" @if(!$product->price) disabled @endif>Add to cart</button>
+            </form>
+        </div>
+        @endif
+        </div>
     </div>
 </div>
