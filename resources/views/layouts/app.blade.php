@@ -35,13 +35,15 @@
                             <a class="nav-link" href="{{ route('product.index') }}">Shop</a>
                         </li>
                         <!-- comment out for next iteration-->
-                        <!-- <li class="nav-item">
+                        @if (Auth::user() != null && Auth::user()->type == 'client')
+                        <li class="nav-item">
                             <a class="nav-link" href="{{ route('cart.show') }}">Cart
                                 @if (Cart::isNotEmpty())
                                     <span class="badge badge-pill badge-secondary">{{ Cart::itemCount() }}</span>
                                 @endif
                             </a>
-                        </li> -->
+                        </li>
+                        @endif
                     </ul>
 
                     <!-- Right Side Of Navbar -->

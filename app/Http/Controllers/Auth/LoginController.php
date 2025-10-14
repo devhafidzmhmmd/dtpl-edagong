@@ -35,7 +35,7 @@ class LoginController extends Controller
         if ($this->guard()->user()->type->isAdmin()) {
             return config('konekt.app_shell.ui.url');
         }
-
+ 
         return '/home';
     }
 }
