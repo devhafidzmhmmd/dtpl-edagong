@@ -29,6 +29,7 @@ class User extends \Konekt\AppShell\Models\User
         'ktp_number',
         'store_description',
         'store_logo',
+        'profile_picture',
         'is_verified',
         'user_type'
     ];
@@ -72,6 +73,16 @@ class User extends \Konekt\AppShell\Models\User
     public function isUmkmSeller()
     {
         return $this->user_type === 'umkm_seller';
+    }
+
+    /**
+     * Check if user is buyer
+     *
+     * @return bool
+     */
+    public function isBuyer()
+    {
+        return $this->user_type === 'buyer' || $this->user_type === 'customer';
     }
 
     /**

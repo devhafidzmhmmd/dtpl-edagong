@@ -44,11 +44,22 @@
 
       <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <ul class="navbar-nav flex-row align-items-center ms-auto">
+          <!-- Order History Link -->
+          <li class="nav-item me-2 me-xl-0">
+            <a class="nav-link" href="{{ route('order.index') }}">
+              <i class="ti ti-history ti-md"></i>
+              <span class="d-xl-inline">{{ __('Order History') }}</span>
+            </a>
+          </li>
+
           <!-- Shop Link -->
           <li class="nav-item me-2 me-xl-0">
-            <a class="nav-link" href="{{ route('product.index') }}">
+            <a class="nav-link" href="{{ route('cart.show') }}">
               <i class="ti ti-shopping-cart ti-md"></i>
-              <span class="d-none d-xl-inline">Shop</span>
+              <span class="d-xl-inline">Cart</span>
+              @if (Cart::isNotEmpty())
+                <span class="badge bg-primary rounded-pill badge-notifications">{{ Cart::itemCount() }}</span>
+              @endif
             </a>
           </li>
           <!--/ Shop Link -->
@@ -66,14 +77,6 @@
           @endauth
           <!--/ Admin Products Link -->
 
-          <!-- Search -->
-          <li class="nav-item navbar-search-wrapper me-2 me-xl-0">
-            <a class="nav-link search-toggler" href="javascript:void(0);">
-              <i class="ti ti-search ti-md"></i>
-            </a>
-          </li>
-          <!-- /Search -->
-
           <!-- Style Switcher -->
           <li class="nav-item me-2 me-xl-0">
             <a class="nav-link style-switcher-toggle hide-arrow" href="javascript:void(0);">
@@ -81,72 +84,6 @@
             </a>
           </li>
           <!--/ Style Switcher -->
-
-          <!-- Quick links  -->
-          <li class="nav-item dropdown-shortcuts navbar-dropdown dropdown me-2 me-xl-0">
-            <a
-              class="nav-link dropdown-toggle hide-arrow"
-              href="javascript:void(0);"
-              data-bs-toggle="dropdown"
-              data-bs-auto-close="outside"
-              aria-expanded="false">
-              <i class="ti ti-layout-grid-add ti-md"></i>
-            </a>
-            <div class="dropdown-menu dropdown-menu-end py-0">
-              <div class="dropdown-menu-header border-bottom">
-                <div class="dropdown-header d-flex align-items-center py-3">
-                  <h5 class="text-body mb-0 me-auto">Shortcuts</h5>
-                  <a
-                    href="javascript:void(0)"
-                    class="dropdown-shortcuts-add text-body"
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="top"
-                    title="Add shortcuts"
-                    ><i class="ti ti-sm ti-apps"></i
-                  ></a>
-                </div>
-              </div>
-              <div class="dropdown-shortcuts-list scrollable-container">
-                <div class="row row-bordered overflow-visible g-0">
-                  <div class="dropdown-shortcuts-item col">
-                    <span class="dropdown-shortcuts-icon rounded-circle mb-2">
-                      <i class="ti ti-shopping-cart fs-4"></i>
-                    </span>
-                    <a href="{{ route('product.index') }}" class="stretched-link">Shop</a>
-                    <small class="text-muted mb-0">Browse Products</small>
-                  </div>
-                  <div class="dropdown-shortcuts-item col">
-                    <span class="dropdown-shortcuts-icon rounded-circle mb-2">
-                      <i class="ti ti-shopping-bag fs-4"></i>
-                    </span>
-                    <a href="{{ route('cart.show') }}" class="stretched-link">Cart</a>
-                    <small class="text-muted mb-0">Shopping Cart</small>
-                  </div>
-                </div>
-                @auth
-                  @role('admin')
-                  <div class="row row-bordered overflow-visible g-0">
-                    <div class="dropdown-shortcuts-item col">
-                      <span class="dropdown-shortcuts-icon rounded-circle mb-2">
-                        <i class="ti ti-settings fs-4"></i>
-                      </span>
-                      <a href="{{ config('konekt.app_shell.ui.url') }}" class="stretched-link">Admin Panel</a>
-                      <small class="text-muted mb-0">Administration</small>
-                    </div>
-                    <div class="dropdown-shortcuts-item col">
-                      <span class="dropdown-shortcuts-icon rounded-circle mb-2">
-                        <i class="ti ti-chart-bar fs-4"></i>
-                      </span>
-                      <a href="{{ url('/') }}" class="stretched-link">Dashboard</a>
-                      <small class="text-muted mb-0">Overview</small>
-                    </div>
-                  </div>
-                  @endrole
-                @endauth
-              </div>
-            </div>
-          </li>
-          <!-- Quick links -->
 
           <!-- Notification -->
           <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-1">
@@ -212,14 +149,26 @@
                 <span class="d-none d-xl-inline">Login</span>
               </a>
             </li>
-            @if (Route::has('register'))
-              <li class="nav-item me-2 me-xl-0">
-                <a class="nav-link" href="{{ route('register') }}">
-                  <i class="ti ti-user-plus ti-md"></i>
-                  <span class="d-none d-xl-inline">Register</span>
-                </a>
-              </li>
-            @endif
+            <li class="nav-item dropdown me-2 me-xl-0">
+              <a class="nav-link dropdown-toggle" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="ti ti-user-plus ti-md"></i>
+                <span class="d-none d-xl-inline">Daftar</span>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                  <a class="dropdown-item" href="{{ route('buyer.register.show') }}">
+                    <i class="ti ti-shopping-cart me-2 ti-sm"></i>
+                    <span class="align-middle">Sebagai Pembeli</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{{ route('umkm.register.show') }}">
+                    <i class="ti ti-building-store me-2 ti-sm"></i>
+                    <span class="align-middle">Sebagai Penjual UMKM</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
           @else
             <li class="nav-item navbar-dropdown dropdown-user dropdown">
               <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
@@ -251,10 +200,22 @@
                   <div class="dropdown-divider"></div>
                 </li>
                 <li>
-                  <a class="dropdown-item" href="{{ route('merchant.profile') }}">
-                    <i class="ti ti-user-check me-2 ti-sm"></i>
-                    <span class="align-middle">My Profile</span>
-                  </a>
+                  @if(Auth::user()->isBuyer())
+                    <a class="dropdown-item" href="{{ route('buyer.profile.show') }}">
+                      <i class="ti ti-user-check me-2 ti-sm"></i>
+                      <span class="align-middle">Profil Saya</span>
+                    </a>
+                  @elseif(Auth::user()->isUmkmSeller())
+                    <a class="dropdown-item" href="{{ route('merchant.profile') }}">
+                      <i class="ti ti-user-check me-2 ti-sm"></i>
+                      <span class="align-middle">Profil Toko</span>
+                    </a>
+                  @else
+                    <a class="dropdown-item" href="{{ route('merchant.profile') }}">
+                      <i class="ti ti-user-check me-2 ti-sm"></i>
+                      <span class="align-middle">My Profile</span>
+                    </a>
+                  @endif
                 </li>
                 <li>
                   <a class="dropdown-item" href="javascript:void(0);">

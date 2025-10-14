@@ -12,7 +12,10 @@
         }
     </style>
     <div class="container">
-        <h1>{{ __('Cart') }}</h1>
+        <div class="d-flex justify-content-between align-items-center">
+            <h1>{{ __('Cart') }}</h1>
+            <a href="{{ route('order.index') }}" class="btn btn-primary text-white">{{ __('Riwayat Pesanan') }}</a>
+        </div>
         <hr>
 
         @if(Cart::isEmpty())
@@ -20,6 +23,7 @@
                 {{ __('Your cart is empty') }}
             </div>
         @else
+        </div>
         <div class="row">
             <div class="col-md-8">
                 <div class="card bg-light">
@@ -81,14 +85,11 @@
                                     <th></th>
                                 </tr>
                                 </tfoot>
-
                             </table>
                         </div>
-
                         <p>
                             <a href="{{ route('product.index') }}" class="btn-lg pl-0">{{ __('Continue Shopping') }}</a>
                         </p>
-
                     </div>
                 </div>
             </div>

@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'Order History' => 'Riwayat Pesanan',
+    'Order Number' => 'Nomor Pesanan',
+    'Date' => 'Tanggal',
+    'Status' => 'Status',
+    'Total' => 'Total',
+    'Actions' => 'Aksi',
+    'View Details' => 'Lihat Detail',
+    'No Orders Found' => 'Tidak Ada Pesanan',
+    'You haven\'t placed any orders yet.' => 'Anda belum melakukan pemesanan apapun.',
+    'Start Shopping' => 'Mulai Belanja',
+    'Order Items' => 'Item Pesanan',
+    'Product' => 'Produk',
+    'Price' => 'Harga',
+    'Quantity' => 'Jumlah',
+    'Order Summary' => 'Ringkasan Pesanan',
+    'Order Date' => 'Tanggal Pesanan',
+    'Subtotal' => 'Subtotal',
+    'Billing Information' => 'Informasi Penagihan',
+    'Shipping Address' => 'Alamat Pengiriman',
+    'Order Notes' => 'Catatan Pesanan',
+    'Back to Orders' => 'Kembali ke Pesanan',
+    'View Product' => 'Lihat Produk',
+    'Continue Shopping' => 'Lanjut Belanja',
+];

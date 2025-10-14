@@ -1,0 +1,26 @@
+<?php
+
+return [
+    'Order History' => 'Order History',
+    'Order Number' => 'Order Number',
+    'Date' => 'Date',
+    'Status' => 'Status',
+    'Total' => 'Total',
+    'Actions' => 'Actions',
+    'View Details' => 'View Details',
+    'No Orders Found' => 'No Orders Found',
+    'You haven\'t placed any orders yet.' => 'You haven\'t placed any orders yet.',
+    'Start Shopping' => 'Start Shopping',
+    'Order Items' => 'Order Items',
+    'Product' => 'Product',
+    'Price' => 'Price',
+    'Quantity' => 'Quantity',
+    'Order Summary' => 'Order Summary',
+    'Order Date' => 'Order Date',
+    'Subtotal' => 'Subtotal',
+    'Billing Information' => 'Billing Information',
+    'Shipping Address' => 'Shipping Address',
+    'Order Notes' => 'Order Notes',
+    'Back to Orders' => 'Back to Orders',
+    'View Product' => 'View Product',
+];

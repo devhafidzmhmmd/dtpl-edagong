@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('product.index');;
 });
 
 Auth::routes();
@@ -82,12 +82,32 @@ Route::group(['prefix' => 'payment/stripe', 'as' => 'payment.stripe.'], function
 
 // UMKM Registration Routes
 Route::group(['prefix' => 'umkm', 'as' => 'umkm.'], function() {
+    Route::get('register', 'UmkmRegistrationController@showRegistrationForm')->name('register.show');
     Route::post('register', 'UmkmRegistrationController@register')->name('register');
     Route::post('check-email', 'UmkmRegistrationController@checkEmail')->name('check-email');
+});
+
+// Buyer Registration Routes
+Route::group(['prefix' => 'buyer', 'as' => 'buyer.'], function() {
+    Route::get('register', 'BuyerRegistrationController@showRegistrationForm')->name('register.show');
+    Route::post('register', 'BuyerRegistrationController@register')->name('register');
+    Route::post('check-email', 'BuyerRegistrationController@checkEmail')->name('check-email');
+});
+
+// Buyer Profile Routes
+Route::group(['prefix' => 'buyer', 'as' => 'buyer.', 'middleware' => 'auth'], function() {
+    Route::get('profile', 'BuyerProfileController@show')->name('profile.show');
+    Route::put('profile', 'BuyerProfileController@update')->name('profile.update');
 });
 
 // Merchant Routes
 Route::group(['prefix' => 'merchant', 'as' => 'merchant.'], function() {
     Route::get('profile', 'MerchantController@profile')->name('profile');
     Route::put('profile', 'MerchantController@updateProfile')->name('profile.update');
+});
+
+// Order Routes
+Route::group(['prefix' => 'orders', 'as' => 'order.'], function() {
+    Route::get('/', 'OrderController@index')->name('index');
+    Route::get('/{order}', 'OrderController@show')->name('show');
 });

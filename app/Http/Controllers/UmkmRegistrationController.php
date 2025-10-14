@@ -12,6 +12,16 @@ use Illuminate\Validation\ValidationException;
 class UmkmRegistrationController extends Controller
 {
     /**
+     * Show the UMKM registration form
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showRegistrationForm()
+    {
+        return view('auth.register');
+    }
+
+    /**
      * Handle UMKM registration request
      *
      * @param  \Illuminate\Http\Request  $request

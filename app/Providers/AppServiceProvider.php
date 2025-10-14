@@ -17,8 +17,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
-        if (Str::startsWith(config('app.url'), 'https://')) {
-            URL::forceScheme('https');
+        if ($this->app->environment('production') || $this->app->environment('development')) {
+            \Illuminate\Support\Facades\URL::forceScheme('https');
+            $url = $this->app['url'];
+            // Force the application URL
+            $url->forceRootUrl(config('app.url'));
         }
 
         $this->app->concord->registerModel(\Konekt\User\Contracts\User::class, \App\User::class);
