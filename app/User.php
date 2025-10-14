@@ -28,6 +28,7 @@ class User extends \Konekt\AppShell\Models\User
         'store_owner_name',
         'ktp_number',
         'store_description',
+        'store_logo',
         'is_verified',
         'user_type'
     ];

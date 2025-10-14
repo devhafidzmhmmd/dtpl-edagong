@@ -85,3 +85,9 @@ Route::group(['prefix' => 'umkm', 'as' => 'umkm.'], function() {
     Route::post('register', 'UmkmRegistrationController@register')->name('register');
     Route::post('check-email', 'UmkmRegistrationController@checkEmail')->name('check-email');
 });
+
+// Merchant Routes
+Route::group(['prefix' => 'merchant', 'as' => 'merchant.'], function() {
+    Route::get('profile', 'MerchantController@profile')->name('profile');
+    Route::put('profile', 'MerchantController@updateProfile')->name('profile.update');
+});
