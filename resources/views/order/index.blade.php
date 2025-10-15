@@ -49,7 +49,7 @@
                                                             default => 'secondary'
                                                         };
                                                     @endphp
-                                                    <span class="badge badge-{{ $statusClass }}">
+                                                    <span class="badge badge-{{ $statusClass }} text-dark">
                                                         {{ ucfirst($order->status) }}
                                                     </span>
                                                 </td>
