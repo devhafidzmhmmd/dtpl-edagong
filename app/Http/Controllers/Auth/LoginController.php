@@ -36,6 +36,6 @@ class LoginController extends Controller
             return config('konekt.app_shell.ui.url');
         }
  
-        return '/home';
+        return route('product.index');
     }
 }

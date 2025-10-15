@@ -15,12 +15,14 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', function () {
-    return redirect()->route('product.index');;
+    return redirect()->route('product.index');
 });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', function () {
+    return redirect()->route('product.index');
+})->name('home');
 
 Route::group(['prefix' => 'shop', 'as' => 'product.'], function() {
     Route::get('index', 'ProductController@index')->name('index');
