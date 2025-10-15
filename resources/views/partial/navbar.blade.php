@@ -96,7 +96,7 @@
                 <ul class="list-group list-group-flush">
                   @forelse(Auth::user()->notifications()->latest()->take(5)->get() as $notification)
                     <li class="list-group-item list-group-item-action dropdown-notifications-item {{ $notification->is_read ? '' : 'bg-light' }}">
-                      <div class="d-flex">
+                      <div class="d-flex" onclick="window.location.href = '{{ route('vanilo.admin.order.show', $notification->data['order_id']) }}'">
                         <div class="flex-shrink-0 me-3">
                           <div class="avatar">
                             <span class="avatar-initial rounded-circle {{ $notification->type === 'order_placed' ? 'bg-label-success' : 'bg-label-info' }}">
