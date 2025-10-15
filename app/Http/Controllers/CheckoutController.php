@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CheckoutRequest;
-use App\Notification;
-use App\User;
 use Konekt\Address\Models\CountryProxy;
 use Vanilo\Cart\Contracts\CartManager;
 use Vanilo\Checkout\Contracts\Checkout;
@@ -61,7 +59,7 @@ class CheckoutController extends Controller
         $order->save();
         
         // Create notifications for merchants
-        $this->createOrderNotifications($order);
+        \App\Helpers\Notification::createOrderNotifications($order);
         
         $this->cart->destroy();
 
@@ -83,44 +81,5 @@ class CheckoutController extends Controller
             'order' => $order,
             'paymentRequest' => $paymentRequest,
         ]);
-    }
-
-    /**
-     * Create notifications for merchants when an order is placed
-     *
-     * @param Order $order
-     */
-    private function createOrderNotifications(Order $order): void
-    {
-        // Get all merchants (UMKM sellers) who have products in this order
-        $merchantIds = collect();
-        
-        foreach ($order->items as $item) {
-            // Get the product and find its merchant
-            $product = $item->product;
-            if ($product && $product->user_id) {
-                $merchantIds->push($product->user_id);
-            }
-        }
-
-        // Remove duplicates
-        $merchantIds = $merchantIds->unique();
-
-        // Create notifications for each merchant
-        foreach ($merchantIds as $merchantId) {
-            $merchant = User::find($merchantId);
-            
-            // Only create notification for UMKM sellers
-            if ($merchant && $merchant->isUmkmSeller()) {
-                $orderData = [
-                    'order_id' => $order->id,
-                    'customer_name' => $order->billpayer->getName(),
-                    'total' => $order->total(),
-                    'items_count' => $order->items->count()
-                ];
-
-                Notification::createOrderNotification($merchantId, $orderData);
-            }
-        }
     }
 }

@@ -2,10 +2,14 @@
 
 namespace App\Providers;
 
+use App\Observers\MasterProductObserver;
+use App\Observers\ProductObserver;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Schema;
+use Vanilo\Foundation\Models\MasterProduct;
+use Vanilo\Foundation\Models\Product;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,6 +29,10 @@ class AppServiceProvider extends ServiceProvider
         }
 
         $this->app->concord->registerModel(\Konekt\User\Contracts\User::class, \App\User::class);
+        
+        // Register Product Observers
+        Product::observe(ProductObserver::class);
+        MasterProduct::observe(MasterProductObserver::class);
     }
 
     /**
