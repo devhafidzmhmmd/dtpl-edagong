@@ -94,4 +94,28 @@ class User extends \Konekt\AppShell\Models\User
     {
         return $this->is_verified;
     }
+
+    /**
+     * Get the user's notifications.
+     */
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
+
+    /**
+     * Get the user's unread notifications.
+     */
+    public function unreadNotifications()
+    {
+        return $this->notifications()->unread();
+    }
+
+    /**
+     * Get the count of unread notifications.
+     */
+    public function unreadNotificationsCount()
+    {
+        return $this->unreadNotifications()->count();
+    }
 }

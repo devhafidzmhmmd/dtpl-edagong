@@ -111,3 +111,11 @@ Route::group(['prefix' => 'orders', 'as' => 'order.'], function() {
     Route::get('/', 'OrderController@index')->name('index');
     Route::get('/{order}', 'OrderController@show')->name('show');
 });
+
+// Notification Routes
+Route::group(['prefix' => 'notifications', 'as' => 'notifications.', 'middleware' => 'auth'], function() {
+    Route::post('{id}/mark-as-read', 'NotificationController@markAsRead')->name('mark-as-read');
+    Route::post('mark-all-as-read', 'NotificationController@markAllAsRead')->name('mark-all-as-read');
+    Route::get('unread-count', 'NotificationController@getUnreadCount')->name('unread-count');
+    Route::get('recent', 'NotificationController@getRecent')->name('recent');
+});

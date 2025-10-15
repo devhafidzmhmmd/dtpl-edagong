@@ -44,29 +44,31 @@
 
       <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
         <ul class="navbar-nav flex-row align-items-center ms-auto">
-          <!-- Order History Link -->
-          <li class="nav-item me-2 me-xl-0">
-            <a class="nav-link" href="{{ route('order.index') }}">
-              <i class="ti ti-history ti-md"></i>
-              <span class="d-xl-inline">{{ __('Order History') }}</span>
-            </a>
-          </li>
-
-          <!-- Shop Link -->
-          <li class="nav-item me-2 me-xl-0">
-            <a class="nav-link" href="{{ route('cart.show') }}">
-              <i class="ti ti-shopping-cart ti-md"></i>
-              <span class="d-xl-inline">Cart</span>
-              @if (Cart::isNotEmpty())
-                <span class="badge bg-primary rounded-pill badge-notifications">{{ Cart::itemCount() }}</span>
-              @endif
-            </a>
-          </li>
-          <!--/ Shop Link -->
-
-          <!-- Admin Products Link -->
           @auth
-            @if(Auth::user()->hasRole('admin') || Auth::user()->user_type === 'umkm_seller')
+          @if(Auth::user()->user_type === 'buyer')
+            <!-- Order History Link -->
+            <li class="nav-item me-2 me-xl-0">
+              <a class="nav-link" href="{{ route('order.index') }}">
+                <i class="ti ti-history ti-md"></i>
+                <span class="d-xl-inline">{{ __('Order History') }}</span>
+              </a>
+            </li>
+
+            <!-- Shop Link -->
+            <li class="nav-item me-2 me-xl-0">
+              <a class="nav-link" href="{{ route('cart.show') }}">
+                <i class="ti ti-shopping-cart ti-md"></i>
+                <span class="d-xl-inline">Cart</span>
+                @if (Cart::isNotEmpty())
+                  <span class="badge bg-primary rounded-pill badge-notifications">{{ Cart::itemCount() }}</span>
+                @endif
+              </a>
+            </li>
+            <!--/ Shop Link -->
+            @endif
+
+            <!-- Admin Products Link -->
+            @if(Auth::user()->hasRole('merchant'))
             <li class="nav-item me-2 me-xl-0">
               <a class="nav-link" href="{{ route('vanilo.admin.product.index') }}" target="_blank">
                 <i class="ti ti-package ti-md"></i>
@@ -74,8 +76,8 @@
               </a>
             </li>
             @endif
+            <!--/ Admin Products Link -->
           @endauth
-          <!--/ Admin Products Link -->
 
           <!-- Style Switcher -->
           <li class="nav-item me-2 me-xl-0">
@@ -86,6 +88,7 @@
           <!--/ Style Switcher -->
 
           <!-- Notification -->
+          @auth
           <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-1">
             <a
               class="nav-link dropdown-toggle hide-arrow"
@@ -94,51 +97,85 @@
               data-bs-auto-close="outside"
               aria-expanded="false">
               <i class="ti ti-bell ti-md"></i>
-              <span class="badge bg-danger rounded-pill badge-notifications">0</span>
+              @if(Auth::user()->unreadNotificationsCount() > 0)
+                <span class="badge bg-danger rounded-pill badge-notifications">{{ Auth::user()->unreadNotificationsCount() }}</span>
+              @endif
             </a>
             <ul class="dropdown-menu dropdown-menu-end py-0">
               <li class="dropdown-menu-header border-bottom">
                 <div class="dropdown-header d-flex align-items-center py-3">
-                  <h5 class="text-body mb-0 me-auto">Notifications</h5>
-                  <a
-                    href="javascript:void(0)"
-                    class="dropdown-notifications-all text-body"
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="top"
-                    title="Mark all as read"
-                    ><i class="ti ti-mail-opened fs-4"></i
-                  ></a>
+                  <h5 class="text-body mb-0 me-auto">Notifikasi</h5>
+                  @if(Auth::user()->unreadNotificationsCount() > 0)
+                    <a
+                      href="javascript:void(0)"
+                      class="dropdown-notifications-all text-body"
+                      data-bs-toggle="tooltip"
+                      data-bs-placement="top"
+                      title="Tandai semua sebagai dibaca"
+                      onclick="markAllAsRead()"
+                      ><i class="ti ti-mail-opened fs-4"></i
+                    ></a>
+                  @endif
                 </div>
               </li>
               <li class="dropdown-notifications-list scrollable-container">
                 <ul class="list-group list-group-flush">
-                  <li class="list-group-item list-group-item-action dropdown-notifications-item">
-                    <div class="d-flex">
-                      <div class="flex-shrink-0 me-3">
-                        <div class="avatar">
-                          <span class="avatar-initial rounded-circle bg-label-info">
-                            <i class="ti ti-info-circle"></i>
-                          </span>
+                  @forelse(Auth::user()->notifications()->latest()->take(5)->get() as $notification)
+                    <li class="list-group-item list-group-item-action dropdown-notifications-item {{ $notification->is_read ? '' : 'bg-light' }}">
+                      <div class="d-flex">
+                        <div class="flex-shrink-0 me-3">
+                          <div class="avatar">
+                            <span class="avatar-initial rounded-circle {{ $notification->type === 'order_placed' ? 'bg-label-success' : 'bg-label-info' }}">
+                              @if($notification->type === 'order_placed')
+                                <i class="ti ti-shopping-cart"></i>
+                              @else
+                                <i class="ti ti-info-circle"></i>
+                              @endif
+                            </span>
+                          </div>
+                        </div>
+                        <div class="flex-grow-1">
+                          <h6 class="mb-1">{{ $notification->title }}</h6>
+                          <p class="mb-0">{{ $notification->message }}</p>
+                          <small class="text-muted">{{ $notification->created_at->diffForHumans() }}</small>
+                        </div>
+                        @if(!$notification->is_read)
+                          <div class="flex-shrink-0">
+                            <span class="badge bg-primary rounded-pill">Baru</span>
+                          </div>
+                        @endif
+                      </div>
+                    </li>
+                  @empty
+                    <li class="list-group-item list-group-item-action dropdown-notifications-item">
+                      <div class="d-flex">
+                        <div class="flex-shrink-0 me-3">
+                          <div class="avatar">
+                            <span class="avatar-initial rounded-circle bg-label-info">
+                              <i class="ti ti-info-circle"></i>
+                            </span>
+                          </div>
+                        </div>
+                        <div class="flex-grow-1">
+                          <h6 class="mb-1">Selamat Datang!</h6>
+                          <p class="mb-0">Belum ada notifikasi.</p>
+                          <small class="text-muted">Baru saja</small>
                         </div>
                       </div>
-                      <div class="flex-grow-1">
-                        <h6 class="mb-1">Welcome!</h6>
-                        <p class="mb-0">You have no notifications yet.</p>
-                        <small class="text-muted">Just now</small>
-                      </div>
-                    </div>
-                  </li>
+                    </li>
+                  @endforelse
                 </ul>
               </li>
               <li class="dropdown-menu-footer border-top">
                 <a
                   href="javascript:void(0);"
                   class="dropdown-item d-flex justify-content-center text-primary p-2 h-px-40 mb-1 align-items-center">
-                  View all notifications
+                  Lihat semua notifikasi
                 </a>
               </li>
             </ul>
           </li>
+          @endauth
           <!--/ Notification -->
 
           <!-- User -->
@@ -262,3 +299,56 @@
       </div>
     </div>
   </nav>
+
+  <script>
+    function markAllAsRead() {
+      fetch('{{ route("notifications.mark-all-as-read") }}', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          // Reload the page to update the notification count
+          location.reload();
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    }
+
+    // Auto-refresh notification count every 30 seconds
+    setInterval(function() {
+      fetch('{{ route("notifications.unread-count") }}')
+        .then(response => response.json())
+        .then(data => {
+          const badge = document.querySelector('.badge-notifications');
+          if (data.count > 0) {
+            if (badge) {
+              badge.textContent = data.count;
+              badge.style.display = 'inline';
+            } else {
+              // Create badge if it doesn't exist
+              const bellIcon = document.querySelector('.ti-bell');
+              if (bellIcon) {
+                const newBadge = document.createElement('span');
+                newBadge.className = 'badge bg-danger rounded-pill badge-notifications';
+                newBadge.textContent = data.count;
+                bellIcon.parentNode.appendChild(newBadge);
+              }
+            }
+          } else {
+            if (badge) {
+              badge.style.display = 'none';
+            }
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching notification count:', error);
+        });
+    }, 30000);
+  </script>
