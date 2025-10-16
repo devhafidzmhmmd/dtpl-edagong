@@ -118,4 +118,20 @@ class User extends \Konekt\AppShell\Models\User
     {
         return $this->unreadNotifications()->count();
     }
+
+    /**
+     * Get the user's products.
+     */
+    public function products()
+    {
+        return $this->hasMany(\Vanilo\Foundation\Models\Product::class);
+    }
+
+    /**
+     * Get the user's master products.
+     */
+    public function masterProducts()
+    {
+        return $this->hasMany(\Vanilo\Foundation\Models\MasterProduct::class);
+    }
 }
