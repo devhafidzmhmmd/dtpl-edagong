@@ -21,7 +21,7 @@ class PalembangUmkmSeeder extends Seeder
     public function run(): void
     {
         // API endpoint untuk data UMKM Palembang
-        $apiUrl = 'https://diskopukm.palembang.go.id/api/produks?sort%5B0%5D=createdAt%3Adesc&populate%5Bpenjual%5D%5Bpopulate%5D%5Bgambar%5D=%2A&populate%5Bgambar%5D=%2A&populate%5Bkategori_produk%5D=%2A&pagination%5BpageSize%5D=20';
+        $apiUrl = 'https://diskopukm.palembang.go.id/api/produks?sort%5B0%5D=createdAt%3Adesc&populate%5Bpenjual%5D%5Bpopulate%5D%5Bgambar%5D=%2A&populate%5Bgambar%5D=%2A&populate%5Bkategori_produk%5D=%2A&pagination%5BpageSize%5D=100';
         
         try {
             // Fetch data dari API
