@@ -63,18 +63,18 @@
       <div class="col-md-12">
         <ul class="nav nav-pills flex-column flex-sm-row mb-4">
           <li class="nav-item">
-            <a class="nav-link active" href="javascript:void(0);"
+            <a class="nav-link active" href="{{ route('merchant.profile') }}"
               ><i class="ti-xs ti ti-store me-1"></i> Store Profile</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ route('merchant.dashboard') }}"
+              ><i class="ti-xs ti ti-chart-line me-1"></i> Dashboard</a
             >
           </li>
           <li class="nav-item">
             <a class="nav-link" href="javascript:void(0);"
               ><i class="ti-xs ti ti-package me-1"></i> Products</a
-            >
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="javascript:void(0);"
-              ><i class="ti-xs ti ti-chart-bar me-1"></i> Analytics</a
             >
           </li>
           <li class="nav-item">

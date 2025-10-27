@@ -14,15 +14,14 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    return redirect()->route('product.index');
-});
+// Village Profile (Homepage)
+Route::get('/', 'VillageProfileController@index')->name('home');
 
 Auth::routes();
 
 Route::get('/home', function () {
-    return redirect()->route('product.index');
-})->name('home');
+    return redirect()->route('home');
+})->name('home.redirect');
 
 Route::group(['prefix' => 'shop', 'as' => 'product.'], function() {
     Route::get('index', 'ProductController@index')->name('index');
@@ -103,9 +102,12 @@ Route::group(['prefix' => 'buyer', 'as' => 'buyer.', 'middleware' => 'auth'], fu
 });
 
 // Merchant Routes
-Route::group(['prefix' => 'merchant', 'as' => 'merchant.'], function() {
+Route::group(['prefix' => 'merchant', 'as' => 'merchant.', 'middleware' => 'auth'], function() {
     Route::get('profile', 'MerchantController@profile')->name('profile');
     Route::put('profile', 'MerchantController@updateProfile')->name('profile.update');
+    Route::get('dashboard', 'MerchantDashboardController@dashboard')->name('dashboard');
+    Route::get('dashboard/transactions-data', 'MerchantDashboardController@getTransactionData')->name('dashboard.transactions');
+    Route::get('dashboard/products-data', 'MerchantDashboardController@getProductPerformanceData')->name('dashboard.products');
 });
 
 // Order Routes
