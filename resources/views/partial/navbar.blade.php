@@ -296,33 +296,36 @@
     }
 
     // Auto-refresh notification count every 30 seconds
-    setInterval(function() {
-      fetch('{{ route("notifications.unread-count") }}')
-        .then(response => response.json())
-        .then(data => {
-          const badge = document.querySelector('.badge-notifications');
-          if (data.count > 0) {
-            if (badge) {
-              badge.textContent = data.count;
-              badge.style.display = 'inline';
+    // Only run on pages where user is authenticated and notification bell exists
+    if (document.querySelector('.ti-bell')) {
+      setInterval(function() {
+        fetch('{{ route("notifications.unread-count") }}')
+          .then(response => response.json())
+          .then(data => {
+            const badge = document.querySelector('.badge-notifications');
+            if (data.count > 0) {
+              if (badge) {
+                badge.textContent = data.count;
+                badge.style.display = 'inline';
+              } else {
+                // Create badge if it doesn't exist
+                const bellIcon = document.querySelector('.ti-bell');
+                if (bellIcon) {
+                  const newBadge = document.createElement('span');
+                  newBadge.className = 'badge bg-danger rounded-pill badge-notifications';
+                  newBadge.textContent = data.count;
+                  bellIcon.parentNode.appendChild(newBadge);
+                }
+              }
             } else {
-              // Create badge if it doesn't exist
-              const bellIcon = document.querySelector('.ti-bell');
-              if (bellIcon) {
-                const newBadge = document.createElement('span');
-                newBadge.className = 'badge bg-danger rounded-pill badge-notifications';
-                newBadge.textContent = data.count;
-                bellIcon.parentNode.appendChild(newBadge);
+              if (badge) {
+                badge.style.display = 'none';
               }
             }
-          } else {
-            if (badge) {
-              badge.style.display = 'none';
-            }
-          }
-        })
-        .catch(error => {
-          console.error('Error fetching notification count:', error);
-        });
-    }, 30000);
+          })
+          .catch(error => {
+            // Silently fail - don't log errors to console
+          });
+      }, 30000);
+    }
   </script>

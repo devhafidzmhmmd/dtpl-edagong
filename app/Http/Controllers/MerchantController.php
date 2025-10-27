@@ -31,6 +31,7 @@ class MerchantController extends Controller
         ]);
 
         $user = Auth::user();
+        $logoPath = null;
         
         // Handle file upload
         if ($request->hasFile('store_logo')) {
@@ -39,13 +40,12 @@ class MerchantController extends Controller
                 Storage::disk('public')->delete($user->store_logo);
             }
             
-            // Store new logo
-            $logoPath = $request->file('store_logo')->store('store-logos', 'public');
-            $user->store_logo = $logoPath;
+            // Store new logo in storage/app/public/store/
+            $logoPath = $request->file('store_logo')->store('store', 'public');
         }
 
-        // Update user data
-        $user->update([
+        // Update user data (include store_logo if uploaded)
+        $updateData = [
             'store_name' => $request->store_name,
             'store_owner_name' => $request->store_owner_name,
             'umkm_category' => $request->umkm_category,
@@ -57,7 +57,14 @@ class MerchantController extends Controller
             'postal_code' => $request->postal_code,
             'phone' => $request->phone,
             'product_category' => $request->product_category,
-        ]);
+        ];
+        
+        // Add store_logo if it was uploaded
+        if ($logoPath) {
+            $updateData['store_logo'] = $logoPath;
+        }
+        
+        $user->update($updateData);
 
         return redirect()->route('merchant.profile')->with('success', 'Store profile updated successfully!');
     }

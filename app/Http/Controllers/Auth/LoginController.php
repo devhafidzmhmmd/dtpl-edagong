@@ -36,6 +36,7 @@ class LoginController extends Controller
             return config('konekt.app_shell.ui.url');
         }
  
-        return route('product.index');
+        // Redirect to village profile homepage after login
+        return '/';
     }
 }
