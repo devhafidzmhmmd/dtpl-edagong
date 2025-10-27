@@ -10,16 +10,6 @@
         </a>
       </div>
 
-      <!-- Main Navigation Links -->
-      <div class="navbar-nav d-none d-lg-flex me-3">
-        <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" href="{{ route('home') }}">
-          <i class="ti ti-home me-1"></i>Beranda
-        </a>
-        <a class="nav-link {{ request()->is('shop/*') ? 'active' : '' }}" href="{{ route('product.index') }}">
-          <i class="ti ti-store me-1"></i>Produk
-        </a>
-      </div>
-
       <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
         <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
           <i class="ti ti-menu-2 ti-sm"></i>
