@@ -391,16 +391,63 @@ use Illuminate\Support\Str;
 @endsection
 
 @push('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tilt.js/1.2.1/tilt.jquery.min.js" ></script>
+<script src="{{ asset('assets/vendor/libs/jquery/jquery.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tilt.js/1.2.1/tilt.jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <script>
-    const tilt = $('.map-tilt').tilt({
-        max: 15,
-        speed: 1000,
-        perspective: 1000,
-        scale: 1.05,
-        glare: false,
-        "max-glare": 0.5,
-        gyroscope: false,
+    // Initialize confetti effect when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        // Trigger confetti from multiple origins for better effect
+        const duration = 3000; // 3 seconds
+        const end = Date.now() + duration;
+        
+        (function frame() {
+            confetti({
+                particleCount: 2,
+                angle: 60,
+                spread: 55,
+                origin: { x: 0 },
+                colors: ['#ffd700', '#ff6b6b', '#4ecdc4', '#ffe66d', '#95e1d3']
+            });
+            
+            confetti({
+                particleCount: 2,
+                angle: 120,
+                spread: 55,
+                origin: { x: 1 },
+                colors: ['#ffd700', '#ff6b6b', '#4ecdc4', '#ffe66d', '#95e1d3']
+            });
+            
+            if (Date.now() < end) {
+                requestAnimationFrame(frame);
+            }
+        }());
+        
+        // Additional burst from center after initial confetti
+        setTimeout(function() {
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#ffd700', '#ff6b6b', '#4ecdc4', '#ffe66d', '#95e1d3', '#667eea', '#764ba2']
+            });
+        }, 500);
+    });
+    
+    // Initialize Tilt.js for map images
+    $(document).ready(function() {
+        if ($('.map-tilt').length) {
+            $('.map-tilt').tilt({
+                max: 15,
+                speed: 1000,
+                perspective: 1000,
+                scale: 1.05,
+                glare: false,
+                "max-glare": 0.5,
+                gyroscope: false,
+                reset: true
+            });
+        }
     });
     
     // Smooth scroll to sections when clicking navigation links
