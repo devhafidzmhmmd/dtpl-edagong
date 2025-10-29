@@ -7,11 +7,12 @@ use Illuminate\Support\Str;
 @push('styles')
 <style>
     .hero-section {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
+        /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
+        /* color: white; */
         padding: 100px 0;
         position: relative;
         overflow: hidden;
+        height: 550px;
     }
     
     .hero-section::before {
@@ -21,8 +22,8 @@ use Illuminate\Support\Str;
         left: 0;
         right: 0;
         bottom: 0;
-        background: url('{{ asset('assets/img/pages/profile-banner.png') }}') center/cover;
-        opacity: 0.2;
+        background: url('{{ asset('images/hero.png') }}') center/cover;
+        opacity: 0.9;
     }
     
     .hero-content {
@@ -115,9 +116,9 @@ use Illuminate\Support\Str;
         <div class="hero-content">
             <div class="row align-items-center">
                 <div class="col-lg-6">
-                    <h1 class="display-4 fw-bold mb-4">Desa Manud Jaya</h1>
-                    <h2 class="h4 mb-4">Memberdayakan Ekonomi Desa Melalui Platform Digital</h2>
-                    <p class="lead mb-4">
+                    <h1 class="display-4 fw-bold mb-4 text-white">Desa Manud Jaya</h1>
+                    <h2 class="h4 mb-4 text-white">Memberdayakan Ekonomi Desa Melalui Platform Digital</h2>
+                    <p class="lead mb-4 text-white">
                         Platform e-dagang yang menghubungkan UMKM lokal Desa Manud Jaya dengan pasar luas, 
                         mengurangi lapisan distribusi, dan meningkatkan transparansi keuangan untuk 
                         kemandirian ekonomi desa.
@@ -126,47 +127,11 @@ use Illuminate\Support\Str;
                         <a href="{{ route('product.index') }}" class="btn btn-light btn-lg px-5">
                             <i class="ti ti-shopping-cart me-2"></i>Mulai Berbelanja
                         </a>
-                        <a href="{{ route('umkm.register.show') }}" class="btn btn-outline-light btn-lg px-5">
+                        <a href="{{ route('umkm.register.show') }}" class="btn btn-info btn-lg px-5">
                             <i class="ti ti-store me-2"></i>Daftar Sebagai UMKM
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-6 text-center">
-                    <img src="{{ asset('assets/img/illustrations/girl-with-laptop.png') }}" 
-                         alt="Platform E-Dagon" 
-                         class="img-fluid"
-                         style="max-height: 400px;">
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- About Section -->
-<div class="section" id="tentang">
-    <div class="container-xxl">
-        <div class="row">
-            <div class="col-lg-6">
-                <h2 class="section-title text-start">Tentang Desa Manud Jaya</h2>
-                <p class="lead">
-                    Desa Manud Jaya adalah pilot project dari LSM Cipta Bumi Sentosa Abadi yang berfokus 
-                    pada pemberdayaan masyarakat desa melalui teknologi informasi.
-                </p>
-                <p>
-                    Sebagai desa yang memiliki potensi besar di sektor UMKM, pertanian, dan wisata, 
-                    Desa Manud Jaya menghadapi tantangan seperti dampak pandemi dan akses pasar yang terbatas.
-                </p>
-                <p>
-                    Platform e-dagon hadir sebagai solusi untuk menghubungkan produk UMKM dengan pasar 
-                    yang lebih luas, terutama konsumen perkotaan, sekaligus memberikan visibilitas 
-                    laporan keuangan yang transparan untuk UMKM.
-                </p>
-            </div>
-            <div class="col-lg-6">
-                <img src="{{ asset('assets/img/pages/profile-banner.png') }}" 
-                     alt="Desa Manud Jaya" 
-                     class="img-fluid rounded"
-                     style="box-shadow: 0 10px 40px rgba(0,0,0,0.1);">
             </div>
         </div>
     </div>
@@ -254,6 +219,29 @@ use Illuminate\Support\Str;
                         <p class="text-muted mb-0">Transaksi Berhasil</p>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Promo Section: Seksi untuk Promo -->
+<div class="section border-bottom border-dashed" id="promo">
+    <div class="container-xxl">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0 map-tilt me-3">
+                <img src="{{ asset('images/promo.jpeg') }}"
+                     alt="Promo Desa Manud Jaya"
+                     class="img-fluid rounded"
+                     style="box-shadow: 0 10px 40px rgba(0,0,0,0.13); cursor: pointer; max-height:350px;">
+            </div>
+            <div class="col-lg-5 d-flex flex-column justify-content-center">
+                <h2 class="fw-bold mb-3">Promo Spesial!!!</h2>
+                <p class="lead mb-4">
+                    Dapatkan penawaran menarik untuk produk-produk unggulan Desa Manud Jaya! Nikmati berbagai diskon dan promo eksklusif hanya di platform E-Dagon. Buruan cek sebelum kehabisan!
+                </p>
+                <a href="{{ route('product.index') }}" class="btn btn-primary btn-lg px-5">
+                    <i class="ti ti-gift me-2"></i>Lihat Promo Sekarang
+                </a>
             </div>
         </div>
     </div>
@@ -403,7 +391,18 @@ use Illuminate\Support\Str;
 @endsection
 
 @push('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tilt.js/1.2.1/tilt.jquery.min.js" ></script>
 <script>
+    const tilt = $('.map-tilt').tilt({
+        max: 15,
+        speed: 1000,
+        perspective: 1000,
+        scale: 1.05,
+        glare: false,
+        "max-glare": 0.5,
+        gyroscope: false,
+    });
+    
     // Smooth scroll to sections when clicking navigation links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
