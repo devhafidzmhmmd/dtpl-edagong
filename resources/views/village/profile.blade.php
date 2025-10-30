@@ -337,7 +337,7 @@ use Illuminate\Support\Str;
             </div>
             
             <div class="text-center mt-4">
-                <a href="{{ route('product.index') }}" class="btn btn-primary btn-lg">
+                <a href="{{ route('store.index') }}" class="btn btn-primary btn-lg">
                     <i class="ti ti-arrow-right me-2"></i> Lihat Semua Rekan UMKM Kami
                 </a>
             </div>
@@ -427,7 +427,7 @@ use Illuminate\Support\Str;
             </div>
             
             <div class="text-center mt-4">
-                <a href="{{ route('store.index') }}" class="btn btn-outline-primary btn-lg">
+                <a href="{{ route('product.index') }}" class="btn btn-outline-primary btn-lg">
                     <i class="ti ti-eye me-2"></i>Lihat Semua Produk Kami
                 </a>
             </div>
