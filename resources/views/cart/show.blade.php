@@ -6,6 +6,11 @@
 @stop
 
 @section('content')
+@php
+    $cartItems = Cart::getItems()->map(function ($item) {
+        return App\Http\Helpers\ProductHelpers::overrideProduct($item->product);
+    });
+@endphp
     <style>
         .product-image {
             height: 45px;
@@ -49,7 +54,7 @@
                                             <a href="{{ route('product.show', $item->product->masterProduct ? $item->product->masterProduct->slug : $item->product->slug) }}">
                                                 {{ $item->product->getName() }}
                                             </a></td>
-                                        <td>{{ format_price($item->price) }}</td>
+                                        <td>{{ $item->product->discount ? $item->product->after_discount_display : $item->product->price_display }}</td>
                                         <td>
                                             <form class="form-inline" action="{{ route('cart.update', $item) }}" method="POST" id="cart-qty-form--{{ $item->id }}">
                                                 @csrf
@@ -65,7 +70,7 @@
 
                                             </form>
                                         </td>
-                                        <td>{{ format_price($item->total) }}</td>
+                                        <td>{{ format_price((int) (($item->product->discount ? $item->product->after_discount : $item->product->price) * $item->quantity)) }}</td>
                                         <td>
                                             <form action="{{ route('cart.remove', $item) }}"
                                                   style="display: inline-block" method="post">
@@ -80,7 +85,14 @@
                                 <tr>
                                     <th colspan="4"></th>
                                     <th>
-                                        {{ format_price(Cart::total()) }}
+                                        @php
+                                            $total = 0;
+                                            foreach(Cart::getItems() as $item) {
+                                                $price = $item->product->discount ? $item->product->after_discount : $item->product->price;
+                                                $total += $price * $item->quantity;
+                                            }
+                                        @endphp
+                                        {{ format_price($total) }}
                                     </th>
                                     <th></th>
                                 </tr>

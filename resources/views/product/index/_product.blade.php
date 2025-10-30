@@ -1,5 +1,5 @@
 <article class="card shadow-sm position-relative">
-
+    @if($product->discount)
     <div class="hot-deal-badge" style="
         position:absolute;
         top:12px;
@@ -26,7 +26,7 @@
         </span>
         <span class="glitter-text">PROMOO!!</span>
     </div>
-
+    @endif
     <a href="{{ route('product.show', $product->slug) }}">
         <img class="card-img-top"
         @if($product->hasImage())
@@ -41,12 +41,17 @@
         <h5>
             <a href="{{ route('product.show', $product->slug) }}">{{ $product->name }}</a>
         </h5>
-        @php
-            $price = $product->price;
-            $discount = $price - ($price * 0.2);
-            $originalPrice = number_format($price, 0, ',', '.');
-            $discountPrice = number_format($discount, 0, ',', '.');
-        @endphp
-        <p class="card-text"><del>Rp. {{ $originalPrice }}</del> <span>Rp. {{ $discountPrice }}</span></p>
+        @if($product->discount)
+        <p class="card-text"><del>{{ $product->price_display }}</del> <span>{{ $product->after_discount_display }}</span></p>
+        @else
+        <p class="card-text">{{ $product->price_display }}</p>
+        @endif
+
+        <hr>
+
+        <div class="d-flex align-items-center gap-2">
+            <img src="{{ $product->merchant->store_logo ?? asset('images/shoplogo.png') }}" alt="{{ $product->merchant->name ?? '-' }}" class="rounded-circle" height="30">
+            <p class="card-text">{{ $product->merchant->name ?? '-' }}</p>
+        </div>
     </div>
 </article>

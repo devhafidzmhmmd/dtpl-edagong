@@ -81,6 +81,10 @@ Route::group(['prefix' => 'payment/stripe', 'as' => 'payment.stripe.'], function
     Route::post('webhook', 'StripeReturnController@webhook');
 });
 
+// Public Storefront Routes
+Route::get('/stores', 'MerchantPublicController@index')->name('store.index');
+Route::get('/store/{merchant}', 'MerchantPublicController@show')->name('store.show');
+
 // UMKM Registration Routes
 Route::group(['prefix' => 'umkm', 'as' => 'umkm.'], function() {
     Route::get('register', 'UmkmRegistrationController@showRegistrationForm')->name('register.show');

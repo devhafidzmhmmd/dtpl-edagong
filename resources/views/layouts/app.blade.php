@@ -71,6 +71,45 @@
     <script src="{{ asset('assets/vendor/libs/formvalidation/dist/js/plugins/Bootstrap5.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/formvalidation/dist/js/plugins/AutoFocus.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/apex-charts/apexcharts.js') }}"></script>
+    <style>
+        @keyframes glitter-promo {
+            0% {
+                box-shadow: 0 0 10px #ffe066cc;
+                filter: brightness(1.1);
+            }
+            50% {
+                box-shadow: 0 0 18px #ffd800cc;
+                filter: brightness(1.2);
+            }
+            100% {
+                box-shadow: 0 0 14px #ffe177;
+                filter: brightness(1.1);
+            }
+        }
+        .glitter-text {
+            background: linear-gradient(90deg, #fff7b1 10%, #fff 24%, #fd6800 70%, #ffd482 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            -webkit-text-stroke: 1.2px #ffbb008c;
+            text-shadow:
+                0 0 9px #ffd700,
+                0 0 4px #ff3838,
+                0 2px 6px #fff, 
+                0 0 16px #ff9800b2;
+            animation: glitter-textflicker 1.7s infinite linear;
+            letter-spacing: 0.8px;
+            font-weight: bold;
+        }
+    
+        @keyframes glitter-textflicker {
+            0%, 100%   { filter: brightness(1); text-shadow: 0 0 10px #fff1; }
+            18%        { filter: brightness(1.3); text-shadow: 0 0 18px #ffd800a7; }
+            40%        { filter: brightness(1.13); }
+            60%        { filter: brightness(1.22); text-shadow: 0 0 26px #ffc40089; }
+            85%        { filter: brightness(0.97); }
+        }
+        </style>
     @stack('scripts')
 </body>
 </html>

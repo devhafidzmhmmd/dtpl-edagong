@@ -107,6 +107,45 @@ use Illuminate\Support\Str;
         scroll-behavior: smooth;
     }
 </style>
+<style>
+    @keyframes glitter-promo {
+        0% {
+            box-shadow: 0 0 10px #ffe066cc;
+            filter: brightness(1.1);
+        }
+        50% {
+            box-shadow: 0 0 18px #ffd800cc;
+            filter: brightness(1.2);
+        }
+        100% {
+            box-shadow: 0 0 14px #ffe177;
+            filter: brightness(1.1);
+        }
+    }
+    .glitter-text {
+        background: linear-gradient(90deg, #fff7b1 10%, #fff 24%, #fd6800 70%, #ffd482 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        color: transparent;
+        -webkit-text-stroke: 1.2px #ffbb008c;
+        text-shadow:
+            0 0 9px #ffd700,
+            0 0 4px #ff3838,
+            0 2px 6px #fff, 
+            0 0 16px #ff9800b2;
+        animation: glitter-textflicker 1.7s infinite linear;
+        letter-spacing: 0.8px;
+        font-weight: bold;
+    }
+
+    @keyframes glitter-textflicker {
+        0%, 100%   { filter: brightness(1); text-shadow: 0 0 10px #fff1; }
+        18%        { filter: brightness(1.3); text-shadow: 0 0 18px #ffd800a7; }
+        40%        { filter: brightness(1.13); }
+        60%        { filter: brightness(1.22); text-shadow: 0 0 26px #ffc40089; }
+        85%        { filter: brightness(0.97); }
+    }
+    </style>
 @endpush
 
 @section('content')
@@ -322,9 +361,40 @@ use Illuminate\Support\Str;
         @if($featuredProducts->count() > 0)
             <div class="row">
                 @foreach($featuredProducts as $product)
+                @php
+                    $product = App\Http\Helpers\ProductHelpers::overrideProduct($product);
+                @endphp
                     <div class="col-lg-3 col-md-4 col-6 mb-4">
                         <a href="{{ route('product.show', $product->slug) }}" class="text-decoration-none text-dark">
                             <div class="card product-card h-100">
+                                @if($product->discount)
+                                <div class="hot-deal-badge" style="
+                                    position:absolute;
+                                    top:12px;
+                                    left:12px;
+                                    z-index:2;
+                                    padding:6px 12px 6px 12px;
+                                    font-size:0.95rem;
+                                    font-weight:600;
+                                    color:#fff;
+                                    background: linear-gradient(90deg, #ffd700 15%, #ff3838 55%, #ff9e00 100%);
+                                    border-radius:20px;
+                                    letter-spacing:0.5px;
+                                    display:flex;
+                                    align-items:center;
+                                    gap:6px;
+                                    animation: glitter-promo 1.2s infinite alternate;
+                                ">
+                                    <span style="font-size:1.3em; margin-right: 3px;">
+                                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" 
+                                            xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;">
+                                            <path d="M12 2C13.38 3.39 14 4.82 14 6.29c0 1.75-1.09 2.81-2 3.33-.91-.52-2-1.58-2-3.33C10 4.82 10.62 3.39 12 2z" fill="#ff7700"/>
+                                            <path d="M12 2V20.08c-2.46-.2-4.84-2.78-4.84-5.58C7.16 11.88 10.09 10.92 12 8.5c1.9 2.42 4.83 3.38 4.83 6 0 2.8-2.38 5.38-4.83 5.58V2z" fill="#ff3838" />
+                                        </svg>
+                                    </span>
+                                    <span class="glitter-text">PROMOO!!</span>
+                                </div>
+                                @endif
                                 @if($product->hasImage())
                                     <img src="{{ $product->getThumbnailUrl() }}" 
                                          class="card-img-top" 
@@ -339,9 +409,16 @@ use Illuminate\Support\Str;
                                 <div class="card-body">
                                     <span class="badge bg-success mb-2">Produk Lokal</span>
                                     <h6 class="card-title mb-2">{{ Str::limit($product->name, 40) }}</h6>
-                                    <p class="card-text fw-bold text-primary mb-0">
-                                        Rp {{ number_format($product->price, 0, ',', '.') }}
-                                    </p>
+                                    @if($product->discount)
+                                        <p class="card-text text-muted small">
+                                            <del>{{ $product->price_display }}</del>
+                                            {{ $product->after_discount_display }}
+                                        </p>
+                                    @else
+                                        <p class="card-text fw-bold text-primary mb-0">
+                                            {{ $product->price_display }}
+                                        </p>
+                                    @endif
                                 </div>
                             </div>
                         </a>
@@ -350,14 +427,14 @@ use Illuminate\Support\Str;
             </div>
             
             <div class="text-center mt-4">
-                <a href="{{ route('product.index') }}" class="btn btn-outline-primary btn-lg">
-                    <i class="ti ti-eye me-2"></i>Lihat Semua Produk
+                <a href="{{ route('store.index') }}" class="btn btn-outline-primary btn-lg">
+                    <i class="ti ti-eye me-2"></i>Lihat Semua Rekan UMKM Kami
                 </a>
             </div>
         @else
             <div class="text-center py-5">
                 <i class="ti ti-package fs-1 text-muted mb-3"></i>
-                <p class="text-muted">Belum ada produk yang tersedia</p>
+                <p class="text-muted">Belum ada rekan UMKM yang terdaftar</p>
             </div>
         @endif
     </div>

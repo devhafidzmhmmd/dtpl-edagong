@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Helpers\ProductHelpers;
 use App\Http\Requests\ProductIndexRequest;
+use Illuminate\Foundation\Auth\User;
 use Vanilo\Category\Contracts\Taxon;
 use Vanilo\Category\Models\TaxonomyProxy;
+use Vanilo\Foundation\Models\Product;
 use Vanilo\Foundation\Search\ProductSearch;
 use Vanilo\Properties\Models\PropertyProxy;
 
@@ -36,7 +39,9 @@ class ProductController extends Controller
         }
 
         return view('product.index', [
-            'products'   => $this->productFinder->getResults(),
+            'products'   => $this->productFinder->getResults()->map(function ($product) {
+                return ProductHelpers::overrideProduct($product);
+            }),
             'taxonomies' => $taxonomies,
             'taxon'      => $taxon,
             'properties' => $properties,
@@ -49,6 +54,8 @@ class ProductController extends Controller
         if (!$product = $this->productFinder->findBySlug($slug)) {
             abort(404);
         }
+
+        $product = ProductHelpers::overrideProduct($product);
 
         return view('product.show', [
             'product' => $product,
