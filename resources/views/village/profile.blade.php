@@ -338,13 +338,13 @@ use Illuminate\Support\Str;
             
             <div class="text-center mt-4">
                 <a href="{{ route('product.index') }}" class="btn btn-primary btn-lg">
-                    <i class="ti ti-arrow-right me-2"></i>Lihat Semua Produk
+                    <i class="ti ti-arrow-right me-2"></i> Lihat Semua Rekan UMKM Kami
                 </a>
             </div>
         @else
             <div class="text-center py-5">
                 <i class="ti ti-store fs-1 text-muted mb-3"></i>
-                <p class="text-muted">Belum ada UMKM yang terdaftar</p>
+                <p class="text-muted">Belum ada rekan UMKM yang terdaftar</p>
             </div>
         @endif
     </div>
@@ -428,13 +428,13 @@ use Illuminate\Support\Str;
             
             <div class="text-center mt-4">
                 <a href="{{ route('store.index') }}" class="btn btn-outline-primary btn-lg">
-                    <i class="ti ti-eye me-2"></i>Lihat Semua Rekan UMKM Kami
+                    <i class="ti ti-eye me-2"></i>Lihat Semua Produk Kami
                 </a>
             </div>
         @else
             <div class="text-center py-5">
                 <i class="ti ti-package fs-1 text-muted mb-3"></i>
-                <p class="text-muted">Belum ada rekan UMKM yang terdaftar</p>
+                <p class="text-muted">Belum ada UMKM yang terdaftar</p>
             </div>
         @endif
     </div>
