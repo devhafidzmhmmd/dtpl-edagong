@@ -36,7 +36,7 @@ class ProductObserver
     {
         // Log or perform any additional actions after product creation
         if ($product->user_id) {
-            \Log::info("Product '{$product->name}' created by user ID: {$product->user_id}");
+            // \Log::info("Product '{$product->name}' created by user ID: {$product->user_id}");
         }
     }
 
@@ -47,7 +47,7 @@ class ProductObserver
     {
         // Log or perform any additional actions after product update
         if ($product->user_id) {
-            \Log::info("Product '{$product->name}' updated by user ID: {$product->user_id}");
+            // \Log::info("Product '{$product->name}' updated by user ID: {$product->user_id}");
         }
     }
 }

@@ -25,7 +25,7 @@ class MerchantDashboardController extends Controller
     public function dashboard()
     {
         $user = Auth::user();
-
+        
         // Get summary statistics
         $totalRevenue = $this->getTotalRevenue();
         $totalOrders = $this->getTotalOrders();

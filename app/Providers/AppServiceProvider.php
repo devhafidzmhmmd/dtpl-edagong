@@ -6,7 +6,8 @@ use App\Observers\MasterProductObserver;
 use App\Observers\ProductObserver;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Str;
+use App\Observers\OrderObserver;
+use Vanilo\Foundation\Models\Order;
 use Schema;
 use Vanilo\Foundation\Models\MasterProduct;
 use Vanilo\Foundation\Models\Product;
@@ -33,6 +34,7 @@ class AppServiceProvider extends ServiceProvider
         // Register Product Observers
         Product::observe(ProductObserver::class);
         MasterProduct::observe(MasterProductObserver::class);
+        Order::observe(OrderObserver::class);
     }
 
     /**

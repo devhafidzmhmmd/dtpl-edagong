@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Vanilo\Order\Models\Order;
 
 class Notification extends Model
 {
@@ -94,6 +95,21 @@ class Notification extends Model
                 'customer_name' => $orderData['customer_name'],
                 'total' => $orderData['total'],
                 'items_count' => $orderData['items_count'] ?? 0
+            ]
+        ]);
+    }
+
+    public static function createOrderStatusUpdatedNotification($buyerId, Order $order): self
+    {
+        return self::create([
+            'user_id' => $buyerId,
+            'type' => 'order_status_updated',
+            'title' => 'Status Pesanan Diperbarui',
+            'message' => "Status pesanan dari {$order->billpayer->getName()} telah diubah menjadi {$order->status}",
+            'data' => [
+                'order_id' => $order->id,
+                'customer_name' => $order->billpayer->getName(),
+                'status' => $order->status
             ]
         ]);
     }
